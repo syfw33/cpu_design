@@ -1,27 +1,18 @@
-`timescale 1ns / 1ps
+//0-0x0fff
 
 module rom(
     output reg [31:0] data,
     input [15:0] addr,
-    input read,
-    input en
+    input read
 );
 
-reg [31:0] memory [0:4095]
-genvar i;
-generate
-    for(i=0;i<4096;i=i+1) begin : init_rom
-        initial begin
-            memory[i] = 32'h00000000 + i;
-        end
-    end
-endgenerate
+reg [31:0] rom [1023:0]
 
-always @(*) begin
-    if (read && ena) begin
-        data = memory[addr];  
-    end else begin
-        data = 32'hZZZZZZZZ;  
-    end
+//init
+initial begin
+    $readmemh("path",rom);
 end
+
+assign data = (read && addr[15:12] == 4'b0000 && addr[1:0] == 2'b00)?rom[addr[11:2]]:32'hZZZZZZZZ;
+
 endmodule
