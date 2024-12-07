@@ -1,2 +1,2 @@
 - 项目名为:cpu_design
-- 当前进度：实现了pc,名称为counter.v
+- 当前进度：实现了pc,名称为counter.v 完成了rom
